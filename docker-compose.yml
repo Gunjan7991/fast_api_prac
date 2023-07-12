@@ -1,0 +1,15 @@
+version: "3"
+services: 
+    fastapi:
+      build: .
+      ports: 
+          - 8000:8000
+      enviroment:
+          - DATABASE_HOSTNAME=localhost
+          - DATABASE_PORT=5432
+          - DATABASE_PASSWORD=apple
+          - DATABASE_NAME=test
+          - DATABASE_USERNAME=postgres
+          - SECRET_KEY=5kJ5tzAbfBZ0MHZdIc5op1T45PleP1YaHe9m91ChwGQKAvArV02IKE2423Afmo8UmWtnCj9fx4x7H2
+          - ALGORITHM= 
+          - ACCESS_TOKEN_EXPIRE_MINUTES=
