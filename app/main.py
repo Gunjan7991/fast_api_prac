@@ -1,10 +1,14 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Depends
 from pydantic import BaseModel
 from typing import Optional
+from . import models
+from .database import get_db, engine 
+from .routers import posts
 
-
+models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
+app.include_router(posts.router)
 
 class Post(BaseModel):
     id: Optional[int] = None
