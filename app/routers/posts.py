@@ -10,6 +10,10 @@ router = APIRouter(prefix="/api/v1",
 @router.get("/posting")
 async def get_post(db: Session = Depends(get_db)):
     my_posts = db.query(posts).all()
-    print(type(my_posts))
-    print(my_posts[0])
     return {"message": "Success!!", "Posts": my_posts}
+
+
+@router.get("/posts/{id}")
+def get_post_by_id(id: int, db: Session = Depends(get_db)):
+    my_posts = db.query(posts).filter(posts.id == id).first()
+    return {"message": "Success!!", "Post": my_posts}
