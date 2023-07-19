@@ -3,12 +3,21 @@ from datetime import datetime
 from typing import Optional
 
 
-def PostCreate(BaseModel):
+class PostBase(BaseModel):
     title: str
     content: str
-    published: bool = False
+    published: Optional[bool] = False
+    rating: Optional[int]
+
+
+class PostCreate(PostBase):
     pass
 
-def PostDisplay(BaseModel):
+
+class PostDisplay(PostBase):
     pass
 
+
+class PostUpdate(BaseModel):
+    content: Optional[str]
+    published: Optional[bool]
