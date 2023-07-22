@@ -8,7 +8,8 @@
             python3 -m venv venv
 
     -   If virtual env is used, activate the virtual env.
-            source venv/bin/activate
+            source venv/bin/activate [mac os / linux]
+            . venv/bin/activate      [windows]
 
     -   First we need to download all the dependencies for the project by running pip command.
             pip install -r requirements.txt 
