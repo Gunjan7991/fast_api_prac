@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from ..database import get_db
 from sqlalchemy.orm import Session
 from .. import models, schemas
+from ..utils import hash, verify_password
 
 router = APIRouter(prefix="/api/v1",
                    tags=["Users"])
@@ -11,18 +12,53 @@ router = APIRouter(prefix="/api/v1",
 def save_users(users: schemas.UserCreate, db: Session = Depends(get_db)):
     new_user: models.users = models.users(
         **users.model_dump(exclude="re_password"))
+
     if users.password == users.re_password:
+        new_user.password = hash(users.password)
         try:
             db.add(new_user)
             db.commit()
+            db.refresh(new_user)
 
         except Exception as e:
             raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED,
                                 detail=f"Exception Occured!! {e}")
 
         finally:
-            return {"message": "Success!", "Data": new_user}
+            return {"message": "Success!", "Data": display_user(new_user)}
 
     else:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"Password didn't Match")
+
+
+@router.get('/users/{id}')
+async def get_user(id: int, db: Session = Depends(get_db)):
+    user = db.query(models.users).filter(models.users.id == id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User with id: {id} does not exist")
+
+    usr = display_user(user)
+    return usr
+
+
+@router.get("/users")
+def get_users(db: Session = Depends(get_db)):
+    try:
+        users = db.query(models.users).all()
+        userList: list = []
+        for user in users:
+            userList.append(display_user(user))
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED,
+                            detail=f"Exception Occured!! {e}")
+    finally:
+        return {"message": "Success!!", "Posts": userList}
+
+
+def display_user(user) -> schemas.UserDisplay:
+    user = user.__dict__
+    usr = schemas.UserDisplay(address=user["address"], email=user["email"], phone=user["phone"],
+                              name=user["phone"], email_verified=user["email_verified"], phone_verified=user["phone_verified"])
+    return usr
