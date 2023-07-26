@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from datetime import datetime
 from typing import Optional
 
@@ -14,9 +14,41 @@ class PostCreate(PostBase):
 
 
 class PostDisplay(PostBase):
-    pass
+    model_config = ConfigDict(extra='allow')
 
 
 class PostUpdate(BaseModel):
     content: Optional[str]
     published: Optional[bool]
+
+
+class UserBase(BaseModel):
+    name: str
+    email: EmailStr
+    phone: str
+    address: Optional[str]
+
+
+class UserCreate(UserBase):
+    password: str
+    re_password: str
+
+
+class UserDisplay(BaseModel):
+    model_config = ConfigDict(extra='allow')
+    message: str
+    data: list
+    name: str
+    email: EmailStr
+    phone: str
+    address: Optional[str] | None = None
+    email_verified: bool
+    hone_verified: bool
+
+
+class UserUpdate(BaseModel):
+    old_password: str
+    phone: Optional[str]
+    address: Optional[str]
+    password: Optional[str]
+    re_password: Optional[str]
