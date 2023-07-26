@@ -14,7 +14,7 @@ class PostCreate(PostBase):
 
 
 class PostDisplay(PostBase):
-    model_config = ConfigDict(extra='allow')
+    model_config = ConfigDict(from_attributes=True)
 
 
 class PostUpdate(BaseModel):
@@ -35,15 +35,13 @@ class UserCreate(UserBase):
 
 
 class UserDisplay(BaseModel):
-    model_config = ConfigDict(extra='allow')
-    message: str
-    data: list
+    # model_config = ConfigDict(from_attributes=True)
     name: str
     email: EmailStr
     phone: str
     address: Optional[str] | None = None
     email_verified: bool
-    hone_verified: bool
+    phone_verified: bool
 
 
 class UserUpdate(BaseModel):
