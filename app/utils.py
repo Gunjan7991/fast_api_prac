@@ -1,7 +1,5 @@
 from passlib.context import CryptContext
-from .config import settings
 
-key = settings.secret_key
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
