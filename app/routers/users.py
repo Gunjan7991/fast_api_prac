@@ -32,7 +32,7 @@ def save_users(users: schemas.UserCreate, db: Session = Depends(get_db)):
                             detail=f"Password didn't Match")
 
 
-@router.get('/users/{id}')
+@router.get('/users/{id}', status_code=status.HTTP_200_OK)
 async def get_user(id: int, db: Session = Depends(get_db)):
     user = db.query(models.users).filter(models.users.id == id).first()
     if not user:
@@ -41,6 +41,20 @@ async def get_user(id: int, db: Session = Depends(get_db)):
 
     usr = display_user(user)
     return usr
+
+
+@router.post('/users/login', status_code=status.HTTP_200_OK)
+async def get_user_by_email(login: schemas.login, db: Session = Depends(get_db)):
+    user = db.query(models.users).filter(
+        models.users.email == login.email).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User with Email does not exist!! Please Sign Up")
+    if not verify_password(login.password, user.password):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail=f"User with Email or Password didn't match!")
+    usr = display_user(user)
+    return {"Message": "Login Successful", "Detail": usr}
 
 
 @router.get("/users")
