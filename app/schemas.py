@@ -44,6 +44,11 @@ class UserDisplay(BaseModel):
     phone_verified: bool
 
 
+class login(BaseModel):
+    email: EmailStr
+    password: str
+
+
 class UserUpdate(BaseModel):
     old_password: str
     phone: Optional[str]
