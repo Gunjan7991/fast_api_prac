@@ -16,7 +16,7 @@ def login(login_cred: schemas.login, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credentials")
 
-    if not verify_password(login_cred, user.password):
+    if not verify_password(login_cred.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credentials")
 
