@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from ..database import get_db
 from sqlalchemy.orm import Session
 from .. import models, schemas
-from ..utils import hash, verify_password
+from ..utils import hash, verify_password, display_user
 
 router = APIRouter(prefix="/api/v1",
                    tags=["Users"])
@@ -69,10 +69,3 @@ def get_users(db: Session = Depends(get_db)):
                             detail=f"Exception Occured!! {e}")
     finally:
         return {"message": "Success!!", "Posts": userList}
-
-
-def display_user(user) -> schemas.UserDisplay:
-    user = user.__dict__
-    usr = schemas.UserDisplay(address=user["address"], email=user["email"], phone=user["phone"],
-                              name=user["phone"], email_verified=user["email_verified"], phone_verified=user["phone_verified"])
-    return usr
