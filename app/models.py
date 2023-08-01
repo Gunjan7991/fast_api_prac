@@ -24,7 +24,7 @@ class users(Base):
     password = Column(String, nullable=False)
     phone = Column(String, nullable=False, unique=True)
     address = Column(String)
-    email_verified = Column(Boolean, default=False)
-    phone_verified = Column(Boolean, default=False)
+    email_verified = Column(Boolean, nullable=False, default=False)
+    phone_verified = Column(Boolean, nullable=False, default=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
