@@ -12,7 +12,19 @@ router = APIRouter(prefix="/api/v1",
 def save_users(users: schemas.UserCreate, db: Session = Depends(get_db)):
     new_user: models.users = models.users(
         **users.model_dump(exclude="re_password"))
+    user_exits = db.query(models.users).filter(
+        models.users.email == users.email).first()
+    if user_exits:
+        raise HTTPException(
+            status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="Email already Used.")
 
+    user_exits = db.query(models.users).filter(
+        models.users.phone == users.phone).first()
+    
+    if user_exits:
+        raise HTTPException(
+            status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="Phone Number already Used.")
+    
     if users.password == users.re_password:
         new_user.password = hash(users.password)
         try:
