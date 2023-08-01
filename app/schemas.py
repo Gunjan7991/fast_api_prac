@@ -55,3 +55,14 @@ class UserUpdate(BaseModel):
     address: Optional[str]
     password: Optional[str]
     re_password: Optional[str]
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    id: Optional[str] = None
+    name: Optional[str] = None
+    
