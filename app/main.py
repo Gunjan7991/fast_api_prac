@@ -1,7 +1,7 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI
 from . import models
 from .database import engine
-from .routers import posts, users
+from .routers import posts, users, auth
 
 
 # Creates all the table in database based on the models.
@@ -24,3 +24,4 @@ def status():
 # include all the routes
 app.include_router(posts.router)
 app.include_router(users.router)
+app.include_router(auth.router)
