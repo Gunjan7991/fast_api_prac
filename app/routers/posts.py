@@ -36,8 +36,9 @@ def get_post_by_id(id: int, db: Session = Depends(get_db)):
 def save_post(posts: schemas.PostCreate, db: Session = Depends(get_db), get_current_user: schemas.TokenData = Depends(oauth.get_current_user)):
 
     print(
-        f"TokenData: {get_current_user}, id: {get_current_user.id}, name: {get_current_user.name}")
-    new_post = models.posts(**posts.model_dump())
+        f"TokenData: {get_current_user}")  # , id: {get_current_user.id}, name: {get_current_user.name}
+    new_post = models.posts(owner_id=int(
+        get_current_user.id), **posts.model_dump())
     try:
         db.add(new_post)
         db.commit()
