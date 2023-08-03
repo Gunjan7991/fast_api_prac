@@ -11,28 +11,28 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
-    expire = datetime.now()+timedelta(minutes=int(settings.access_token_expire_minutes))
+    expire = datetime.utcnow()+timedelta(minutes=int(settings.access_token_expire_minutes))
     to_encode.update({"exp": expire})
     encoded = jwt.encode(to_encode, settings.secret_key,
                          algorithm=settings.algorithm)
     return encoded
 
 
-def verify_access_token(token: str, credentials_exceptions):
+def verify_access_token(token: str, credentials_exceptions) -> schemas.TokenData:
     try:
         payload = jwt.decode(token=token, key=settings.secret_key,
                              algorithms=settings.algorithm)
+        usr_id: str = payload.get("user_id")
+        usr_name: str = payload.get("name")
 
-        id: str = payload.get("user_id")
-        name: str = payload.get("name")
-
-        if id is None:
+        if usr_id is None:
             raise credentials_exceptions
 
-        token_data = schemas.TokenData(id=id, name=name)
-
+        token_data = schemas.TokenData(id=str(usr_id), name=usr_name)
     except JWTError:
         raise credentials_exceptions
+
+    return token_data
 
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
