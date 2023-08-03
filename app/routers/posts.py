@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from ..database import get_db
 from sqlalchemy.orm import Session
-from .. import models, schemas
+from .. import models, schemas, oauth
 
 router = APIRouter(prefix="/api/v1",
                    tags=["Posts"])
@@ -33,7 +33,10 @@ def get_post_by_id(id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/posts", status_code=status.HTTP_201_CREATED)
-def save_post(posts: schemas.PostCreate, db: Session = Depends(get_db)):
+def save_post(posts: schemas.PostCreate, db: Session = Depends(get_db), get_current_user: schemas.TokenData = Depends(oauth.get_current_user)):
+
+    print(
+        f"TokenData: {get_current_user}, id: {get_current_user.id}, name: {get_current_user.name}")
     new_post = models.posts(**posts.model_dump())
     try:
         db.add(new_post)
