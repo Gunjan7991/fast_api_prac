@@ -14,6 +14,7 @@ class PostCreate(PostBase):
 
 
 class PostDisplay(PostBase):
+    id: int
     model_config = ConfigDict(from_attributes=True)
 
 
