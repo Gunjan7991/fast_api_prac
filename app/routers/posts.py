@@ -1,27 +1,38 @@
 from fastapi import APIRouter, HTTPException, status, Depends
+import logging
 from ..database import get_db
 from sqlalchemy.orm import Session
 from .. import models, schemas, oauth
 
+
 router = APIRouter(prefix="/api/v1",
                    tags=["Posts"])
 
+logging.basicConfig(filename='app.log', filemode='w',
+                    format='%(name)s - %(levelname)s - %(message)s')
 
-@router.get("/posts", status_code=status.HTTP_200_OK, response_model=schemas.PostDisplay)
-async def get_post(db: Session = Depends(get_db)):
+
+@router.get("/posts", status_code=status.HTTP_200_OK)
+async def get_post(db: Session = Depends(get_db), get_current_user: schemas.TokenData = Depends(oauth.get_current_user)):
     try:
         my_posts = db.query(models.posts).all()
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED,
                             detail=f"Exception Occured!! {e}")
     finally:
-        return my_posts
+        posts = []
+        for post in my_posts:
+            print(post.owner_id)
+            if post.published or post.owner_id == int(get_current_user.id):
+                posts.append(post)
+        return posts
 
 
-@router.get("/posts/{id}", status_code=status.HTTP_200_OK, response_model=schemas.PostDisplay)
-def get_post_by_id(id: int, db: Session = Depends(get_db)):
+@router.get("/posts/my", status_code=status.HTTP_200_OK)
+def get_post_by_me(db: Session = Depends(get_db), get_current_user: schemas.TokenData = Depends(oauth.get_current_user)):
     try:
-        my_posts = db.query(models.posts).filter(models.posts.id == id).first()
+        my_posts = db.query(models.posts).filter(
+            models.posts.owner_id == get_current_user.id).all()
         if my_posts == None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
@@ -48,7 +59,7 @@ def save_post(posts: schemas.PostCreate, db: Session = Depends(get_db), get_curr
                             detail=f"Exception Occured!! {e}")
 
     finally:
-        return posts
+        return new_post
 
 
 @router.put("/posts/{id}", status_code=status.HTTP_202_ACCEPTED, response_model=schemas.PostDisplay)
