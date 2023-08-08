@@ -9,7 +9,7 @@ router = APIRouter(prefix='/api/v1',
                    tags=['Authentication'])
 
 
-@router.post("/login", status_code=status.HTTP_202_ACCEPTED)
+@router.post("/login", status_code=status.HTTP_202_ACCEPTED, response_model=schemas.Token)
 def login(login_cred: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user: models.users = db.query(models.users).filter(
         models.users.email == login_cred.username).first()
@@ -24,7 +24,5 @@ def login(login_cred: OAuth2PasswordRequestForm = Depends(), db: Session = Depen
 
     access_token = oauth.create_access_token(
         data={"user_id": user.id, "name": user.name})
-    return {"message": "login sucessfull",
-            "Token": {"access_token": access_token, "token_type": "bearer"},
-            "Data": display_user(user)
-            }
+
+    return schemas.Token(access_token=access_token, token_type="Bearer")
