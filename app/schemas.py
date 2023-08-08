@@ -19,8 +19,7 @@ class PostDisplay(PostBase):
 
 
 class PostUpdate(BaseModel):
-    content: Optional[str]
-    published: Optional[bool]
+    published: Optional[bool] = None
 
 
 class UserBase(BaseModel):
@@ -37,6 +36,7 @@ class UserCreate(UserBase):
 
 class UserDisplay(BaseModel):
     # model_config = ConfigDict(from_attributes=True)
+    id: int
     name: str
     email: EmailStr
     phone: str
@@ -52,10 +52,10 @@ class login(BaseModel):
 
 class UserUpdate(BaseModel):
     old_password: str
-    phone: Optional[str]
-    address: Optional[str]
-    password: Optional[str]
-    re_password: Optional[str]
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    password: Optional[str] = None
+    re_password: Optional[str] = None
 
 
 class Token(BaseModel):
