@@ -32,3 +32,32 @@ class users(Base):
     phone_verified = Column(Boolean, nullable=False, default=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
+
+
+class votes(Base):
+    __tablename__ = "votes"
+    votes_id = Column(Integer, primary_key=True,
+                      nullable=False, autoincrement="auto")
+    post_id = Column(Integer, ForeignKey(
+        "posts.id", ondelete="Cascade"), nullable=False)
+    used_id = Column(Integer, ForeignKey(
+        "users.id", ondelete="Cascade"), nullable=False)
+    comment_id = Column(Integer, ForeignKey(
+        "comments.comment_id", ondelete="Cascade"))
+    created_at = Column(TIMESTAMP(timezone=True),
+                        nullable=False, server_default=text('now()'))
+
+
+class comments(Base):
+    __tablename__ = "comments"
+    comment_id = Column(Integer, primary_key=True,
+                        nullable=False, autoincrement="auto")
+    comment = Column(String)
+    post_id = Column(Integer, ForeignKey(
+        "posts.id", ondelete="Cascade"), nullable=False)
+    used_id = Column(Integer, ForeignKey(
+        "users.id", ondelete="Cascade"), nullable=False)
+    commentree = Column(Integer, ForeignKey(
+        "comments.comment_id", ondelete="Cascade"))
+    created_at = Column(TIMESTAMP(timezone=True),
+                        nullable=False, server_default=text('now()'))

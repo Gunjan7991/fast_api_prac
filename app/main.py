@@ -1,8 +1,25 @@
 from fastapi import FastAPI
+import logging
+from os import path
+import sys
+from .colargulog import ColorizedArgsFormatter
 from . import models
 from .database import engine
 from .routers import posts, users, auth
 
+
+log_file_path = path.join(path.dirname(
+    path.abspath(__file__)), 'logging.conf')
+# setup loggers
+logging.config.fileConfig(log_file_path, disable_existing_loggers=False)
+# get root logger
+logger = logging.getLogger(__name__)
+root_logger = logging.getLogger()
+console_handler = logging.StreamHandler(stream=sys.stdout)
+console_format = "%(asctime)s loglevel=%(levelname)-s logger=%(name)s %(funcName)s() L%(lineno)-4d %(message)s"
+colored_formatter = ColorizedArgsFormatter(console_format)
+console_handler.setFormatter(colored_formatter)
+root_logger.addHandler(console_handler)
 
 # Creates all the table in database based on the models.
 models.Base.metadata.create_all(bind=engine)
