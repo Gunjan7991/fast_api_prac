@@ -1,15 +1,31 @@
-version: "3"
-services: 
+version: "3.8"
+services:
     fastapi:
-      build: .
-      ports: 
-          - 8000:8000
-      enviroment:
-          - DATABASE_HOSTNAME=localhost
-          - DATABASE_PORT=5432
-          - DATABASE_PASSWORD=apple
-          - DATABASE_NAME=test
-          - DATABASE_USERNAME=postgres
-          - SECRET_KEY=5kJ5tzAbfBZ0MHZdIc5op1T45PleP1YaHe9m91ChwGQKAvArV02IKE2423Afmo8UmWtnCj9fx4x7H2
-          - ALGORITHM= 
-          - ACCESS_TOKEN_EXPIRE_MINUTES=
+        build: .
+        ports:
+            - 8000:8000
+        enviroment:
+            - DATABASE_HOSTNAME=localhost
+            - DATABASE_PORT=5432
+            - DATABASE_PASSWORD=apple
+            - DATABASE_NAME=test
+            - DATABASE_USERNAME=postgres
+            - SECRET_KEY=a6cb0906b9f6f457d2bec73def41bbcaf5081056ed61dfb6a0feb972f712387e3cf19b8aedbf0e8b241bc0e439f92a23
+            - ALGORITHM=HS256
+            - ACCESS_TOKEN_EXPIRE_MINUTES=60
+        command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+        depends_on:
+            - postgres
+
+    postgres:
+        image: postgres
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_PASSWORD=apple
+            - POSTGRES_DB=test
+        volumes:
+            - postgres-db: /var/lib/postgresql/data
+
+    volumes:
+        postgres-db:
