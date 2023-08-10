@@ -42,13 +42,11 @@ fastapi:
 
 ```
 
-Run:
+Run below command to get the IP_Address.
 
 ```
 ifconfig | grep  "inet 192."
 ```
-
-to get the IP_Address.
 
 ### Building Container
 
