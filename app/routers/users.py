@@ -83,7 +83,7 @@ def update_user(id: int, updated_user: schemas.UserUpdate, db: Session = Depends
         logger.info("update function: phone not passed")
         updated_user.phone = user.phone
 
-    if not updated_user.password:
+    if not updated_user.password or not updated_user.re_password:
         logger.info("update function: password not passed")
         updated_user.password = user.password
     else:
