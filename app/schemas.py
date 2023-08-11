@@ -15,7 +15,6 @@ class PostCreate(PostBase):
 
 class PostDisplay(PostBase):
     id: int
-    model_config = ConfigDict(from_attributes=True)
 
 
 class PostUpdate(BaseModel):
@@ -66,3 +65,12 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     id: Optional[str]
     name: Optional[str]
+
+
+class vote(BaseModel):
+    user_id: int
+    post_id: int
+
+
+class post_vote(PostDisplay):
+    voteCount: int
