@@ -5,7 +5,7 @@ import sys
 from .colargulog import ColorizedArgsFormatter
 from . import models
 from .database import engine
-from .routers import posts, users, auth
+from .routers import posts, users, auth, likes
 
 
 log_file_path = path.join(path.dirname(
@@ -57,3 +57,4 @@ def status():
 app.include_router(posts.router)
 app.include_router(users.router)
 app.include_router(auth.router)
+app.include_router(likes.router)
