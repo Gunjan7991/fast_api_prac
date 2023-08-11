@@ -24,9 +24,15 @@ async def get_post(db: Session = Depends(get_db), get_current_user: schemas.Toke
     finally:
         posts = []
         for post in my_posts:
-
             if post.published or post.owner_id == int(get_current_user.id):
-                posts.append(post)
+                votes = db.query(models.votes).filter(
+                    models.votes.post_id == post.id).all()
+                logger.debug(f"Print(votes): {votes}")
+                count = len(votes)
+                pd = schemas.post_vote(
+                    id=post.id, title=post.title, content=post.content, published=post.published, voteCount=count)
+                posts.append(pd)
+
         return posts
 
 
