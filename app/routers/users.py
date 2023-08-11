@@ -1,12 +1,16 @@
 from fastapi import APIRouter, HTTPException, status, Depends
+import logging
+
 from ..database import get_db
 from sqlalchemy.orm import Session
 from .. import models, schemas, oauth
-from ..utils import hash, display_user
+from ..utils import hash, display_user, verify_password
 
 
 router = APIRouter(prefix="/api/v1",
                    tags=["Users"])
+
+logger = logging.getLogger(__name__)
 
 
 @router.post("/users", status_code=status.HTTP_201_CREATED)
@@ -46,7 +50,7 @@ def save_users(users: schemas.UserCreate, db: Session = Depends(get_db)):
 
 
 @router.get('/users/{id}', status_code=status.HTTP_200_OK)
-async def get_user(id: int, db: Session = Depends(get_db),  current_user: schemas.TokenData = Depends(oauth.get_current_user)):
+def get_user(id: int, db: Session = Depends(get_db),  current_user: schemas.TokenData = Depends(oauth.get_current_user)):
     if id != current_user.id:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail="Access Denied!! Unauthorized to access other's information!")
@@ -58,3 +62,41 @@ async def get_user(id: int, db: Session = Depends(get_db),  current_user: schema
 
     usr = display_user(user)
     return usr
+
+
+@router.put("/users/update/{id}", status_code=status.HTTP_202_ACCEPTED)
+def update_user(id: int, updated_user: schemas.UserUpdate, db: Session = Depends(get_db), current_user: schemas.TokenData = Depends(oauth.get_current_user)):
+    if id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Access Denied!! Unauthorized to access other's information!")
+    user_info = db.query(models.users).filter(models.users.id == id)
+    user = user_info.first()
+
+    if not verify_password(updated_user.old_password, user.password):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Authentication Failed")
+    if not updated_user.address:
+        logger.info("update function: address not passed")
+        updated_user.address = user.address
+
+    if not updated_user.phone:
+        logger.info("update function: phone not passed")
+        updated_user.phone = user.phone
+
+    if not updated_user.password:
+        logger.info("update function: password not passed")
+        updated_user.password = user.password
+    else:
+        if updated_user.password == updated_user.re_password:
+            updated_user.password = hash(updated_user.password)
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_304_NOT_MODIFIED, detail="Password didn't match")
+
+    update = user_info.update(
+        updated_user.model_dump(exclude=["re_password", "old_password"]), synchronize_session=False)
+    logger.info(
+        f"Update Status: {'Updated' if update == 1 else 'Not Updated'}")
+    db.commit()
+    user = db.query(models.users).filter(models.users.id == id).first()
+    return display_user(user)
