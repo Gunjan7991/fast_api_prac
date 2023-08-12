@@ -17,6 +17,7 @@ class posts(Base):
     owner_id = Column(Integer, ForeignKey(
         "users.id", ondelete="Cascade"), nullable=False)
     owner = relationship("users")
+    owner = relationship("comments")
 
 
 class users(Base):
@@ -48,10 +49,10 @@ class comments(Base):
     __tablename__ = "comments"
     comment_id = Column(Integer, primary_key=True,
                         nullable=False, autoincrement="auto")
-    comment = Column(String)
+    comment = Column(String, nullable=False)
     post_id = Column(Integer, ForeignKey(
         "posts.id", ondelete="Cascade"), nullable=False)
-    used_id = Column(Integer, ForeignKey(
+    user_id = Column(Integer, ForeignKey(
         "users.id", ondelete="Cascade"), nullable=False)
     commentree = Column(Integer, ForeignKey(
         "comments.comment_id", ondelete="Cascade"))
