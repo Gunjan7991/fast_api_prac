@@ -29,10 +29,14 @@ async def get_post(db: Session = Depends(get_db), get_current_user: schemas.Toke
                     models.votes.post_id == post.id).all()
                 logger.debug(f"Print(votes): {votes}")
                 count = len(votes)
+                voters = []
+                for vote in votes:
+                    voting_user_info = db.query(models.users).filter(models.users.id == vote.user_id).first()
+                    voters.append(schemas.voter(vote.user_id, voting_user_info.name))
+                comments = db.query(models.comments).filter(models.comments.post_id == post.id).all()
                 pd = schemas.post_vote(
-                    id=post.id, title=post.title, content=post.content, published=post.published, voteCount=count)
+                    id=post.id, title=post.title, content=post.content, published=post.published, voteCount=count, votes=voters, comments=comments)
                 posts.append(pd)
-
         return posts
 
 
@@ -45,7 +49,21 @@ def get_post_by_me(db: Session = Depends(get_db), get_current_user: schemas.Toke
         models.posts.owner_id == get_current_user.id).all()
     if my_posts == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    return my_posts
+    posts = []
+    for post in my_posts:
+        votes = db.query(models.votes).filter(
+                    models.votes.post_id == post.id).all()
+        logger.debug(f"Print(votes): {votes}")
+        count = len(votes)
+        voters = []
+        for vote in votes:
+            voting_user_info = db.query(models.users).filter(models.users.id == vote.user_id).first()
+            voters.append(schemas.voter(vote.user_id, voting_user_info.name))
+        comments = db.query(models.comments).filter(models.comments.post_id == post.id).all()
+        pd = schemas.post_vote(
+            id=post.id, title=post.title, content=post.content, published=post.published, voteCount=count, votes=voters, comments=comments)
+        posts.append(pd)
+    return posts
 
 
 @router.post("/posts", status_code=status.HTTP_201_CREATED, response_model=schemas.PostDisplay)
