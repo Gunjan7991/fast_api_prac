@@ -53,11 +53,11 @@ ifconfig | grep  "inet 192."
 After making all the changes you want in docker-compose.yml file, run:
 
 ```
-docker-compose build
+docker-compose build or docker-compose -f docker-compose-[dev/prod].yml build
 ```
 
 Let it download all the dependencies for FastApi app. Once this command runs successfully, run:
 
 ```
-docker-compose up -d
+docker-compose up -d or docker-compose -f docker-compose-[dev/prod].yml up -d
 ```
