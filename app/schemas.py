@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, ConfigDict
+from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from typing import Optional
 
@@ -34,7 +34,6 @@ class UserCreate(UserBase):
 
 
 class UserDisplay(BaseModel):
-    # model_config = ConfigDict(from_attributes=True)
     id: int
     name: str
     email: EmailStr
@@ -72,5 +71,21 @@ class vote(BaseModel):
     post_id: int
 
 
+class voter(BaseModel):
+    user_id: int
+    name: str
+
+
+class comment(BaseModel):
+    comment_id: int
+    comment: str
+    post_id: int
+    user_id: int
+    commentree: int
+    created_at: datetime
+
+
 class post_vote(PostDisplay):
     voteCount: int
+    votes: list[voter]
+    comments: list[comment]
