@@ -32,7 +32,7 @@ async def get_post(db: Session = Depends(get_db), get_current_user: schemas.Toke
                 voters = []
                 for vote in votes:
                     voting_user_info = db.query(models.users).filter(models.users.id == vote.user_id).first()
-                    voters.append(schemas.voter(vote.user_id, voting_user_info.name))
+                    voters.append(schemas.voter(user_id=vote.user_id, name=voting_user_info.name))
                 comments = db.query(models.comments).filter(models.comments.post_id == post.id).all()
                 pd = schemas.post_vote(
                     id=post.id, title=post.title, content=post.content, published=post.published, voteCount=count, votes=voters, comments=comments)
