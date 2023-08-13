@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    IP_Address: str
+    Database_Host: str
     Database_Username: str
     Database_Password: str
     Database_Name: str
