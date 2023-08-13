@@ -8,7 +8,7 @@ from .. import schemas, models
 
 
 router = APIRouter(prefix="/api/v1",
-                   tags=["Likes"])
+                   tags=["Votes"])
 
 logger = logging.getLogger(__name__)
 
@@ -34,12 +34,11 @@ def add_vote(post_id: int, db: Session = Depends(get_db), current_user: schemas.
 @router.delete("/votes/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
 def add_vote(post_id: int, db: Session = Depends(get_db), current_user: schemas.TokenData = Depends(get_current_user)):
     vote_query = db.query(models.votes).filter(
-        models.votes.user_id == current_user.id)
+        models.votes.user_id == current_user.id and  models.votes.post_id == post_id)
     vote = vote_query.first()
     if not vote:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"No vote with post_id: {post_id} found")
-
     try:
         vote_query.delete(synchronize_session=False)
         db.commit()
