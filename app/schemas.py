@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from datetime import datetime
 from typing import Optional
 
@@ -81,9 +81,20 @@ class comment(BaseModel):
     comment: str
     post_id: int
     user_id: int
-    commentree: int
+    commentree: Optional[int]
     created_at: datetime
+    model_config = ConfigDict(from_attributes=True)
 
+class BaseComment(BaseModel):
+    comment: str
+    post_id: int
+   
+
+class UpdateComment(BaseModel):
+    comment:str
+
+class AddComment(BaseComment):
+    commentree: Optional[int] = None
 
 class post_vote(PostDisplay):
     voteCount: int
