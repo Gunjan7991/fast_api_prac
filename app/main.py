@@ -5,7 +5,7 @@ import sys
 from .colargulog import ColorizedArgsFormatter
 from . import models
 from .database import engine
-from .routers import posts, users, auth, likes
+from .routers import posts, users, auth, likes, comments
 
 
 log_file_path = path.join(path.dirname(
@@ -34,10 +34,17 @@ tags_metadata = [
         "description": "Manage Posts. So _fancy_ they have their own docs.",
     },
     {
+        "name": "Votes",
+        "description": "You can like it or not",
+    },
+    {
+        "name": "Comments",
+        "description": "We always have opinion about everything.",
+    },
+    {
         "name": "Authentication",
         "description": "Manage Login.",
     },
-
 ]
 # Starter Code for Fastapi
 app = FastAPI(title="FAST_API_PRAC",
@@ -56,5 +63,6 @@ def status():
 # include all the routes
 app.include_router(posts.router)
 app.include_router(users.router)
-app.include_router(auth.router)
 app.include_router(likes.router)
+app.include_router(comments.router)
+app.include_router(auth.router)
