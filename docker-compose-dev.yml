@@ -11,10 +11,10 @@ services:
         #     - ./.env
 
         environment:
+            - Database_Host=postgres 
             - Database_Port=5433
             - Database_Username=postgres
             - Database_Password=apple
-            - IP_Address=192.168.1.190
             - Database_Name=test
             - secret_key=a6cb0906b9f6f457d2bec73def41bbcaf5081056ed61dfb6a0feb972f712387e3cf19b8aedbf0e8b241bc0e439f92a23
             - algorithm=HS256
@@ -27,8 +27,8 @@ services:
 
     postgres:
         image: postgres
-        ports:
-            - 5433:5433
+        expose:
+            - 5433/tcp
         environment:
             - POSTGRES_USERNAME=postgres
             - POSTGRES_PASSWORD=apple
