@@ -1,0 +1,977 @@
+{
+	"info": {
+		"_postman_id": "24d4e6e1-b15d-4906-9444-deae0492baf0",
+		"name": "FastAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18915355",
+		"_collection_link": "https://speeding-firefly-897071.postman.co/workspace/f169238a-8a6e-4f31-a104-6cd8440ef410/collection/18915355-24d4e6e1-b15d-4906-9444-deae0492baf0?action=share&creator=18915355&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Dev",
+			"item": [
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Users",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"string\",\n  \"email\": \"user@example.com\",\n  \"phone\": \"string\",\n  \"address\": \"string\",\n  \"password\": \"string\",\n  \"re_password\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}users",
+									"host": [
+										"{{local}}users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{local}}users/1",
+									"host": [
+										"{{local}}users"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update_post",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"old_password\": \"string\",\n  \"phone\": \"string1\",\n  \"address\": \"string1\",\n  \"password\": \"Hello!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}users/update/1",
+									"host": [
+										"{{local}}users"
+									],
+									"path": [
+										"update",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Posts",
+					"item": [
+						{
+							"name": "create_posts",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJuYW1lIjoic3RyaW5nIiwiZXhwIjoxNjkxNDQ3OTY3fQ.CcT4nf2Exhoy8-6CefFjH3t8WW0NnO8CUo23Jm2O4vY",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"The Tale of Nine Tail Fox\",\n  \"content\": \"Once Upon a time there was a fox with nine tails. She used to get bullied because of  how different she was. She used to cry every night under the full moon whishing one day she could be just like others. Years goes by but things never went better for her.\",\n  \"published\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}posts",
+									"host": [
+										"{{local}}posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get post by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJuYW1lIjoic3RyaW5nIiwiZXhwIjoxNjkxNDY3Mjc1fQ.DNqttY-4j16JkiEltFF0oa-sgSKUiZBY61fuQWXp_Tc",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{local}}posts/my",
+									"host": [
+										"{{local}}posts"
+									],
+									"path": [
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get posts",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJuYW1lIjoic3RyaW5nIiwiZXhwIjoxNjkxNDY3Mjc1fQ.DNqttY-4j16JkiEltFF0oa-sgSKUiZBY61fuQWXp_Tc",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{local}}posts",
+									"host": [
+										"{{local}}posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Post by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJuYW1lIjoic3RyaW5nIiwiZXhwIjoxNjkxNDY3Mjc1fQ.DNqttY-4j16JkiEltFF0oa-sgSKUiZBY61fuQWXp_Tc",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{local}}posts/1",
+									"host": [
+										"{{local}}posts"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update post",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"published\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}posts/7",
+									"host": [
+										"{{local}}posts"
+									],
+									"path": [
+										"7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.environment.set(\"JWT\", pm.response.json().access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "username",
+											"value": "user@example.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "string",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}login",
+									"host": [
+										"{{local}}login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "vote",
+					"item": [
+						{
+							"name": "add_votes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{local}}votes/1",
+									"host": [
+										"{{local}}votes"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete_votes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{local}}votes/1",
+									"host": [
+										"{{local}}votes"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "comments",
+					"item": [
+						{
+							"name": "add_comment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"comment\": \"string\",\n  \"post_id\": 1,\n  \"commentree\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}comments",
+									"host": [
+										"{{local}}comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update_comment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"comment\": \"string222\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}comments/2",
+									"host": [
+										"{{local}}comments"
+									],
+									"path": [
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete_comment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{local}}comments/1",
+									"host": [
+										"{{local}}comments"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "test",
+			"item": [
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Users",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"string\",\n  \"email\": \"user@example.com\",\n  \"phone\": \"string\",\n  \"address\": \"string\",\n  \"password\": \"string\",\n  \"re_password\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}users",
+									"host": [
+										"{{local}}users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get user by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{local}}users/1",
+									"host": [
+										"{{local}}users"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update_post",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"old_password\": \"string\",\n  \"phone\": \"string1\",\n  \"address\": \"string1\",\n  \"password\": \"Hello!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}users/update/1",
+									"host": [
+										"{{local}}users"
+									],
+									"path": [
+										"update",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Posts",
+					"item": [
+						{
+							"name": "create_posts",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJuYW1lIjoic3RyaW5nIiwiZXhwIjoxNjkxNDQ3OTY3fQ.CcT4nf2Exhoy8-6CefFjH3t8WW0NnO8CUo23Jm2O4vY",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"The Tale of Nine Tail Fox\",\n  \"content\": \"Once Upon a time there was a fox with nine tails. She used to get bullied because of  how different she was. She used to cry every night under the full moon whishing one day she could be just like others. Years goes by but things never went better for her.\",\n  \"published\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}posts",
+									"host": [
+										"{{local}}posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get post by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJuYW1lIjoic3RyaW5nIiwiZXhwIjoxNjkxNDY3Mjc1fQ.DNqttY-4j16JkiEltFF0oa-sgSKUiZBY61fuQWXp_Tc",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{local}}posts/my",
+									"host": [
+										"{{local}}posts"
+									],
+									"path": [
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get posts",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJuYW1lIjoic3RyaW5nIiwiZXhwIjoxNjkxNDY3Mjc1fQ.DNqttY-4j16JkiEltFF0oa-sgSKUiZBY61fuQWXp_Tc",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{local}}posts",
+									"host": [
+										"{{local}}posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Post by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJuYW1lIjoic3RyaW5nIiwiZXhwIjoxNjkxNDY3Mjc1fQ.DNqttY-4j16JkiEltFF0oa-sgSKUiZBY61fuQWXp_Tc",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{local}}posts/1",
+									"host": [
+										"{{local}}posts"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update post",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"published\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}posts/7",
+									"host": [
+										"{{local}}posts"
+									],
+									"path": [
+										"7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.environment.set(\"JWT\", pm.response.json().access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "username",
+											"value": "user@example.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "string",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{local}}login",
+									"host": [
+										"{{local}}login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "vote",
+					"item": [
+						{
+							"name": "add_votes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{local}}votes/1",
+									"host": [
+										"{{local}}votes"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete_votes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{local}}votes/1",
+									"host": [
+										"{{local}}votes"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "comments",
+					"item": [
+						{
+							"name": "add_comment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"comment\": \"string\",\n  \"post_id\": 1,\n  \"commentree\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}comments",
+									"host": [
+										"{{local}}comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update_comment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"comment\": \"string222\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}comments/2",
+									"host": [
+										"{{local}}comments"
+									],
+									"path": [
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete_comment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{JWT}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{local}}comments/1",
+									"host": [
+										"{{local}}comments"
+									],
+									"path": [
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
