@@ -55,6 +55,6 @@ class comments(Base):
     user_id = Column(Integer, ForeignKey(
         "users.id", ondelete="Cascade"), nullable=False)
     commentree = Column(Integer, ForeignKey(
-        "comments.comment_id", ondelete="Cascade"))
+        "comments.comment_id", ondelete="Cascade"), nullable=True)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
