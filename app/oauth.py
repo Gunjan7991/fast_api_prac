@@ -1,4 +1,4 @@
-from jose import JWTError, jwt
+from jose import jwt
 from datetime import datetime, timedelta
 from fastapi import Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer
@@ -42,7 +42,7 @@ def verify_access_token(token: str, credentials_exceptions):
 
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
-    credentials_exceptions = JWTError(
+    credentials_exceptions = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,  detail="credentials not valid!", headers={"WWW-Authenticate: Bearer"})
     usr = models.users()
     try:
