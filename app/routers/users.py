@@ -71,17 +71,22 @@ def update_user(id: int, updated_user: schemas.UserUpdate, db: Session = Depends
                             detail="Access Denied!! Unauthorized to access other's information!")
     user_info = db.query(models.users).filter(models.users.id == id)
     user = user_info.first()
-
+    update: bool = False
     if not verify_password(updated_user.old_password, user.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail="Authentication Failed")
+    
     if not updated_user.address:
         logger.info("update function: address not passed")
         updated_user.address = user.address
-
+    else:
+        update = True
+        
     if not updated_user.phone:
         logger.info("update function: phone not passed")
         updated_user.phone = user.phone
+    else:
+        update = True
 
     if not updated_user.password or not updated_user.re_password:
         logger.info("update function: password not passed")
@@ -89,14 +94,19 @@ def update_user(id: int, updated_user: schemas.UserUpdate, db: Session = Depends
     else:
         if updated_user.password == updated_user.re_password:
             updated_user.password = hash(updated_user.password)
+            update = True
         else:
             raise HTTPException(
                 status_code=status.HTTP_304_NOT_MODIFIED, detail="Password didn't match")
-
-    update = user_info.update(
-        updated_user.model_dump(exclude=["re_password", "old_password"]), synchronize_session=False)
-    logger.info(
-        f"Update Status: {'Updated' if update == 1 else 'Not Updated'}")
-    db.commit()
-    user = db.query(models.users).filter(models.users.id == id).first()
-    return display_user(user)
+    message = {}
+    if update:
+        update = user_info.update(
+            updated_user.model_dump(exclude=["re_password", "old_password"]), synchronize_session=False)
+        logger.info(
+            f"Update Status: {'Updated' if update == 1 else 'Not Updated'}")
+        db.commit()
+        user = db.query(models.users).filter(models.users.id == id).first()
+        message = {"Message": "Updated", "User_Info": display_user(user)}
+    else:
+        message = {"Message": "Not_Updated", "User_Info": display_user(user)}
+    return message
