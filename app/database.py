@@ -7,7 +7,7 @@ from .config import settings
 # SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db" #SQL LITE
 # SQLALCHEMY_DATABASE_URL = f"mysql+mysqlconnector://{Database_Username}:{Database_Password}@{IP_Address}/{Database_Name}" #MYSQL
 # PostgreSQL
-SQLALCHEMY_DATABASE_URL = f"postgresql://{settings.Database_Username}:{settings.Database_Password}@{settings.IP_Address}:{settings.Database_Port}/{settings.Database_Name}"
+SQLALCHEMY_DATABASE_URL = f"postgresql://{settings.Database_Username}:{settings.Database_Password}@{settings.Database_Host}:{settings.Database_Port}/{settings.Database_Name}"
 
 # for all other database,  this is all what we need.
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
