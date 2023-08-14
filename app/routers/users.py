@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 import logging
-
+import re
 from ..database import get_db
 from sqlalchemy.orm import Session
 from .. import models, schemas, oauth
@@ -31,6 +31,9 @@ def save_users(users: schemas.UserCreate, db: Session = Depends(get_db)):
             status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="Phone Number already Used.")
 
     if users.password == users.re_password:
+        if not re.match(r"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", users.password):
+            raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Secure your password")
+        
         new_user.password = hash(users.password)
         try:
             db.add(new_user)
