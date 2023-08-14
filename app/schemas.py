@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, ConfigDict
+from pydantic import BaseModel, EmailStr, ConfigDict, constr
 from datetime import datetime
 from typing import Optional
 
@@ -29,7 +29,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    password: str
+    password: constr(min_length=10)
     re_password: str
 
 
