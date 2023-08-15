@@ -99,7 +99,7 @@ class BraceFormatStyleFormatter(logging.Formatter):
             return False
 
         msg = record.msg
-        if '%' in msg:
+        if "%" in msg:
             return False
 
         count_of_start_param = msg.count("{")

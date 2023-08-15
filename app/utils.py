@@ -12,12 +12,6 @@ def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
 
-
-
-
-
-
-
 def display_user(user: models.users) -> schemas.UserDisplay:
     usr = schemas.UserDisplay(
         id=user.id,

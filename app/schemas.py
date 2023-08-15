@@ -85,16 +85,19 @@ class comment(BaseModel):
     created_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
+
 class BaseComment(BaseModel):
     comment: str
     post_id: int
-   
+
 
 class UpdateComment(BaseModel):
-    comment:str
+    comment: str
+
 
 class AddComment(BaseComment):
     commentree: Optional[int] = None
+
 
 class post_vote(PostDisplay):
     voteCount: int
