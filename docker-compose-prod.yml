@@ -16,7 +16,7 @@ services:
             - postgres
 
     postgres:
-        image: postgres
+        image: postgres:15.4-alpine3.18
         expose:
             - 5433/tcp
         
