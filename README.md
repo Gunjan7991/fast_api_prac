@@ -31,22 +31,6 @@
 
 ## Docker
 
-### Making Changes in docker-compose.yml
-
-To run the application in docker, make sure to change the IP_Address in Environment section of FastApi app.
-
-```
-fastapi:
-     environment:
-          - IP_Address=xxx.xxx.xxx.xxx
-
-```
-
-Run below command to get the IP_Address.
-
-```
-ifconfig | grep  "inet 192."
-```
 
 ### Building Container
 
