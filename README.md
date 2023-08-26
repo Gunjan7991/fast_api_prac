@@ -45,3 +45,24 @@ Let it download all the dependencies for FastApi app. Once this command runs suc
 ```
 docker-compose up -d or docker-compose -f docker-compose-[dev/prod].yml up -d
 ```
+
+### HTTPS API
+
+Install mkcert in you server by running:
+```
+apt install mkcert
+```
+
+Then, You need to generate the certificate and add to your CA with the mkcert utility:
+```
+mkcert -install
+mkcert app.example.com localhost 127.0.0.1 ::1
+```
+
+substitue app.example.com with you " " if you don't have any website or with "name of your website" if you have one
+
+add following when you run uvicorn:
+
+```
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --ssl-keyfile your_key.pem --ssl-certfile your_cer.pem
+```
