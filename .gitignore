@@ -4,3 +4,4 @@ __pycache__
 *.log
 prod_*json
 docker-compose-production.yml
+*.pem
