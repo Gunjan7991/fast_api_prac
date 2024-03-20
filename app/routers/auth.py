@@ -17,8 +17,8 @@ limiter = Limiter(key_func=get_remote_address)
 @router.post(
     "/login", status_code=status.HTTP_202_ACCEPTED, response_model=schemas.Token
 )
-@limiter.limit("1/minute")
-def login(
+@limiter.limit("100/minute")
+async def login(
     request: Request,
     login_cred: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
