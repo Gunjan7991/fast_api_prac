@@ -16,7 +16,7 @@ limiter = Limiter(key_func=get_remote_address)
 
 
 @router.post("/users", status_code=status.HTTP_201_CREATED)
-@limiter.limit("1/minute")
+@limiter.limit("3/minute")
 def save_users(
     request: Request, users: schemas.UserCreate, db: Session = Depends(get_db)
 ):
