@@ -55,6 +55,6 @@ tomli==2.0.1
 typing_extensions==4.7.1
 uvicorn==0.22.0
 wrapt==1.15.0
-sqladmin==0.16.1Add commentMore actions
+sqladmin==0.16.1
 itsdangerous
 asyncpg==0.28.0
