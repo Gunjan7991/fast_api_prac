@@ -34,8 +34,8 @@ app = FastAPI(
 
 # CORS setup — use specific origins when allow_credentials=True
 origins = [
-    "http://localhost:3000",   # React/Frontend origin
-    "http://127.0.0.1:3000",   # Alternate localhost
+    "http://localhost:3000",  # React/Frontend origin
+    "http://127.0.0.1:3000",  # Alternate localhost
 ]
 
 app.add_middleware(
@@ -55,9 +55,7 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # SQLAdmin dashboard setup
 admin = Admin(
-    app,
-    engine,
-    authentication_backend=AdminAuth(secret_key="super-secret-key")
+    app, engine, authentication_backend=AdminAuth(secret_key="super-secret-key")
 )
 admin.add_view(UserAdmin)
 admin.add_view(PostAdmin)

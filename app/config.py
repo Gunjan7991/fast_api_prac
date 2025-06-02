@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
 
+
 class Settings(BaseSettings):
     Database_Host: str
     Database_Username: str
@@ -15,6 +16,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+
 
 # Instantiate the settings object
 settings = Settings()

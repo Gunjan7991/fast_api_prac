@@ -2,6 +2,7 @@ from fastapi import Request
 from sqladmin.authentication import AuthenticationBackend
 from .config import settings
 
+
 class AdminAuth(AuthenticationBackend):
     async def login(self, request: Request) -> bool:
         form = await request.form()
