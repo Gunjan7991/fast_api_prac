@@ -1,30 +1,27 @@
 services:
-    fastapi:
-        build: .
-        ports:
-            - 8000:8000
-        volumes:
-            - ./:/usr/src/app
+  fastapi:
+    build: .
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/usr/src/app
+    env_file:
+      - ./.env
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    depends_on:
+      - postgres
 
-        env_file:
-            - ./.env
-
-        command: uvicorn app.main:app --host 0.0.0.0 --port 8000
-
-        depends_on:
-            - postgres
-
-    postgres:
-        image: postgres:15.4-alpine3.18
-        ports:
-          - 5433:5432
-        environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=superStrongpassword1230!
-            - POSTGRES_DB=tweeter_clone
-        volumes:
-            - postgres-db:/var/lib/postgresql/data
-
+  postgres:
+    image: postgres:15.4-alpine3.18
+    ports:
+      - 5433:5433  # host:container (same)
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=superStrongpassword1230!
+      - POSTGRES_DB=tweeter_clone
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    command: -p 5433  # force Postgres to listen on port 5433 internally
 
 volumes:
-    postgres-db:
+  postgres-db:
